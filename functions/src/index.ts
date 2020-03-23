@@ -1,7 +1,11 @@
-import * as functions from 'firebase-functions';
+import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+import { WriteBatch, Timestamp, CollectionReference } from '@google-cloud/firestore'
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
+
+admin.initializeApp()
+const firestore = admin.firestore()
 
 const hoods: string[] = [
   'Belo Horizonte',
@@ -51,13 +55,12 @@ export const helloWorld = functions.https.onRequest((_request, response) => {
 
 export const hoodsGenerator = functions.https.onRequest(async (_request, response) => {
   try {
-    const firestore = admin.firestore()
     const hoodsGroupCollection = firestore.collection('hoodsGroup')
     const hoodsGroupMaputo = hoodsGroupCollection.doc('maputo')
     const data = {
       id: 'maputo',
       hoods: hoods,
-      createdAt: FirebaseFirestore.Timestamp.now()
+      createdAt: Timestamp.
     }
     await hoodsGroupMaputo.set(data)
     response.send('Successful')
@@ -70,7 +73,6 @@ export const hoodsGenerator = functions.https.onRequest(async (_request, respons
 
 export const adsGenerator = functions.https.onRequest(async (_request, response) => {
   try {
-    const firestore = admin.firestore()
     const adsCollection = firestore.collection('ads')
     const batch = firestore.batch()
     for (let index = 0; index < 10; index++) { createSixADs(batch, adsCollection) }
@@ -83,7 +85,7 @@ export const adsGenerator = functions.https.onRequest(async (_request, response)
   }
 })
 
-function createSixADs(batch: FirebaseFirestore.WriteBatch, adsCollection: FirebaseFirestore.CollectionReference) {
+function createSixADs(batch: WriteBatch, adsCollection: CollectionReference) {
   for (let index = 0; index < 6; index++) {
     const adRef = adsCollection.doc()
     const ad = {
@@ -100,7 +102,7 @@ function createSixADs(batch: FirebaseFirestore.WriteBatch, adsCollection: Fireba
         name: ownerNames[index],
         phoneNumber: ownerPhoneNumbers[index]
       },
-      createdAt: FirebaseFirestore.Timestamp.now()
+      createdAt: Timestamp.now()
     }
     batch.create(adRef, ad)    
   }
