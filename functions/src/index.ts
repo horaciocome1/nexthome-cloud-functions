@@ -60,7 +60,7 @@ export const hoodsGenerator = functions.https.onRequest(async (_request, respons
     const data = {
       id: 'maputo',
       hoods: hoods,
-      createdAt: Timestamp.
+      createdAt: Timestamp.now()
     }
     await hoodsGroupMaputo.set(data)
     response.send('Successful')
