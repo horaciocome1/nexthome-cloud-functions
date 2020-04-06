@@ -45,9 +45,16 @@ const adTypes: string[] = [
 
 const adRooms: number[] = [1, 2, 3, 4, 5, 1]
 
-const adSuites: number[] = [1, 2, 1, 2, 1, 2]
-
 const adWcs: number[] = [1, 2, 3, 1, 2, 3]
+
+const adPrices: number[] = [
+  12000,
+  2700000,
+  24000,
+  1900000,
+  88000,
+  954000
+]
 
 export const helloWorld = functions.https.onRequest((_request, response) => {
   response.send('Hello from Firebase!');
@@ -91,9 +98,9 @@ function createSixADs(batch: WriteBatch, adsCollection: CollectionReference) {
     const ad = {
       id: adRef.id,
       rooms: adRooms[index],
-      suites: adSuites[index],
       wcs: adWcs[index],
       hood: hoods[index],
+      price: adPrices[index],
       hasFurniture: index === 3,
       hasWater: index <= 3,
       hasLight: index >= 3,
